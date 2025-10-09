@@ -1,3 +1,4 @@
+import { CustomBreadcrumb } from '@/components/custom/CustomBreadcrumb';
 import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
 import { CustomPagination } from '@/components/custom/CustomPagination';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,6 +17,9 @@ export const HomePage = () => {
           title="Universo de SuperHéroes"
           description="Descubre, explora y administra super héroes y villanos"
         />
+
+        {/* Breadcrumbs */}
+        <CustomBreadcrumb currentPage="Súper heroes" />
 
         {/* Stats Dashboard */}
         <HeroStats />
