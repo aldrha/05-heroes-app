@@ -1,15 +1,36 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSearchParamsHome } from '@/heroes/hooks/useSearchParamsHome';
 import { Filter, Grid, Plus, Search, SortAsc } from 'lucide-react';
+import React, { useRef } from 'react';
 
 export const SearchControls = () => {
+  const { searchParams, setSearchParams } = useSearchParamsHome();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      const value = inputRef.current?.value ?? '';
+      setSearchParams((prev) => {
+        prev.set('name', value);
+        return prev;
+      });
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-4 mb-8">
         {/* Search */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <Input placeholder="Buscar heroes, villanos, poderes, equipos..." className="pl-12 h-12 text-lg bg-white" />
+          <Input
+            ref={inputRef}
+            placeholder="Buscar heroes, villanos, poderes, equipos..."
+            className="pl-12 h-12 text-lg bg-white"
+            onKeyDown={handleKeyDown}
+            defaultValue={searchParams.get('name') ?? ''}
+          />
         </div>
 
         {/* Action buttons */}
@@ -48,21 +69,15 @@ export const SearchControls = () => {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Category</label>
-            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
-              All categories
-            </div>
+            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">All categories</div>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Universe</label>
-            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
-              All universes
-            </div>
+            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">All universes</div>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Status</label>
-            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
-              All statuses
-            </div>
+            <div className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">All statuses</div>
           </div>
         </div>
         <div className="mt-4">
