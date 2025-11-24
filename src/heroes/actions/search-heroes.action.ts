@@ -12,6 +12,7 @@ interface Option {
   strength?: string;
 }
 
+//TODO: Probar esto yo sola
 export const searchHeroesAction = async ({ name, strength }: Option) => {
   const { data } = await heroApi.get<Hero[]>('/search', {
     params: {
