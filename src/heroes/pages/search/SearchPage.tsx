@@ -10,12 +10,13 @@ import { SearchControls } from './ui/SearchControls';
 export const SearchPage = () => {
   const { searchParams } = useSearchParamsHome();
 
-  const valueSearch = searchParams.get('name') ?? '';
+  const name = searchParams.get('name') ?? '';
+  const strength = searchParams.get('strength') ?? '0';
 
-  const { data: heroesSearch } = useQuery({
-    queryKey: ['search', 'name', valueSearch],
-    queryFn: () => searchHeroesAction({ name: valueSearch }),
-    enabled: valueSearch.length > 0,
+  const { data: heroesSearch = [] } = useQuery({
+    queryKey: ['heroes', 'search', { name, strength }],
+    queryFn: () => searchHeroesAction({ name, strength }),
+    staleTime: 1000 * 60 * 5,
   });
   return (
     <>
@@ -39,7 +40,7 @@ export const SearchPage = () => {
       <SearchControls />
 
       {/* Lista de Heroes */}
-      <HeroGrid heroes={heroesSearch?.heroes ?? []} />
+      <HeroGrid heroes={heroesSearch} />
     </>
   );
 };
